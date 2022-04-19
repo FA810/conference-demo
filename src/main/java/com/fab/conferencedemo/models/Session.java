@@ -1,10 +1,8 @@
 package com.fab.conferencedemo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity(name="sessions")
 public class Session {
@@ -21,6 +19,17 @@ public class Session {
 
     @Column(name = "session_length")
     private Long sessionLength;
+
+    @ManyToMany
+    @JoinTable(
+            name = "session_speakers",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id")
+    )
+    private List<Speaker> speakers;
+
+    public Session(){
+    }
 
     public Long getSessionId() {
         return sessionId;
@@ -54,6 +63,11 @@ public class Session {
         this.sessionLength = sessionLength;
     }
 
-    public Session(){
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(List<Speaker> speakers) {
+        this.speakers = speakers;
     }
 }
