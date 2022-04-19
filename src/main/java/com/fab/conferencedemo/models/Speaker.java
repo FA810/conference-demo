@@ -1,6 +1,7 @@
 package com.fab.conferencedemo.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.util.List;
 
@@ -25,6 +26,11 @@ public class Speaker {
 
     @Column(name = "speaker_bio")
     private String speakerBio;
+
+    @Column(name = "speaker_photo")
+    @Lob // large object
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] speakerPhoto;
 
     @ManyToMany(mappedBy = "speakers")
     private List<Session> sessions;
@@ -86,6 +92,14 @@ public class Speaker {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public byte[] getSpeakerPhoto() {
+        return speakerPhoto;
+    }
+
+    public void setSpeakerPhoto(byte[] speakerPhoto) {
+        this.speakerPhoto = speakerPhoto;
     }
 }
 
