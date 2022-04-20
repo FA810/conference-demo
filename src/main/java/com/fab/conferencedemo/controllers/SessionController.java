@@ -1,7 +1,6 @@
 package com.fab.conferencedemo.controllers;
 
 import com.fab.conferencedemo.models.Session;
-import com.fab.conferencedemo.models.Speaker;
 import com.fab.conferencedemo.repositories.SessionRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

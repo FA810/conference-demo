@@ -1,10 +1,13 @@
 package com.fab.conferencedemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity(name="sessions")
+@Entity(name = "sessions")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Session {
 
     @Id
@@ -63,6 +66,7 @@ public class Session {
         this.sessionLength = sessionLength;
     }
 
+    @JsonIgnore
     public List<Speaker> getSpeakers() {
         return speakers;
     }
