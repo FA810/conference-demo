@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+Request header to add:
+key: "Content-Type"
+value: "application/json"
+*/
+
 @RestController
 @RequestMapping("/api/v1/speakers")
 public class SpeakerController {
@@ -27,6 +33,16 @@ public class SpeakerController {
         return speakerRepository.getReferenceById(id);
     }
 
+    /*
+    Request body example:
+    {
+        "firstName" : "John",
+        "lastName" : "Jackson",
+        "title" : "Senior Consultant",
+        "company" : "Sollers",
+        "speakerBio" : "Test"
+    }
+    */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // to return a specific status
     public Speaker create(@RequestBody final Speaker speaker) {
@@ -36,7 +52,12 @@ public class SpeakerController {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
         // need to check children records before deleting
-        speakerRepository.deleteById(id);
+        try {
+            // need to check children records before deleting
+            speakerRepository.deleteById(id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException ex){
+            System.err.println("No entity found");
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)

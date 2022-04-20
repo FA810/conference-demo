@@ -3,10 +3,12 @@ package com.fab.conferencedemo.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
-@Entity(name = "sessions")
+@Entity
+@Table(name = "sessions")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Session {
 
@@ -15,6 +17,7 @@ public class Session {
     private Long sessionId;
 
     @Column(name = "session_name")
+    @NonNull
     private String sessionName;
 
     @Column(name = "session_description")
@@ -31,7 +34,14 @@ public class Session {
     )
     private List<Speaker> speakers;
 
-    public Session(){
+    public Session( ){
+        this("sessionName", "sessionDescription", 45l );
+    }
+
+    public Session(String sessionName, String sessionDescription, Long sessionLength ){
+        this.sessionName = sessionName;
+        this.sessionDescription = sessionDescription;
+        this.sessionLength = sessionLength;
     }
 
     public Long getSessionId() {

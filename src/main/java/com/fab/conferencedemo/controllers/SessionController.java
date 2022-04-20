@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+Request header to add:
+key: "Content-Type"
+value: "application/json"
+*/
 @RestController
 @RequestMapping("/api/v1/sessions")
 public class SessionController {
@@ -27,6 +32,14 @@ public class SessionController {
         return sessionRepository.getReferenceById(id);
     }
 
+    /*
+    Request body example:
+    {
+        "sessionName" : "Spring Boot",
+        "sessionLength" : 55,
+        "sessionDescription" : "Spring Boot Description"
+     }
+    */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // to return a specific status
     public Session create(@RequestBody final Session session) {
@@ -35,8 +48,12 @@ public class SessionController {
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {
-        // need to check children records before deleting
-        sessionRepository.deleteById(id);
+        try {
+            // need to check children records before deleting
+            sessionRepository.deleteById(id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException ex){
+            System.err.println("No entity found");
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
