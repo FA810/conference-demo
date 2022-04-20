@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/*
-Request header to add:
-key: "Content-Type"
-value: "application/json"
-*/
-
 @RestController
 @RequestMapping("/api/v1/speakers")
 public class SpeakerController {
@@ -23,12 +17,14 @@ public class SpeakerController {
     private SpeakerRepository speakerRepository;
 
     @GetMapping
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public List<Speaker> list() {
         return speakerRepository.findAll();
     }
 
     @GetMapping
-    @RequestMapping("{id}")
+    //@RequestMapping("{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public Speaker get(@PathVariable Long id) {
         return speakerRepository.getReferenceById(id);
     }

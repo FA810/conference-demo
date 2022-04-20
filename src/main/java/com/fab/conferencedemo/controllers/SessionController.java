@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/*
-Request header to add:
-key: "Content-Type"
-value: "application/json"
-*/
 @RestController
 @RequestMapping("/api/v1/sessions")
 public class SessionController {
@@ -22,12 +17,14 @@ public class SessionController {
     private SessionRepository sessionRepository;
 
     @GetMapping
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public List<Session> list() {
         return sessionRepository.findAll();
     }
 
     @GetMapping
-    @RequestMapping("{id}")
+    //@RequestMapping("{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public Session get(@PathVariable Long id) {
         return sessionRepository.getReferenceById(id);
     }
